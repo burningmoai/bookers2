@@ -1,0 +1,76 @@
+<div>
+  <%= flash[:notice] %>
+</div>
+
+
+
+<div class="container px-5 px-sm-0">
+  <div class="row mt-2">
+      <div class="col-md-3">
+      <h2>User info</h2>
+      <%= image_tag @book.user.get_profile_image(100,100) %>
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>name</th><td><%= @book.user.name %></td>
+            </tr>
+            <tr>
+              <th>introduction</th><td><%= @book.user.introduction %></td>
+            </tr>
+          </thead>
+        </table>
+
+      <div>
+
+          <%= link_to edit_user_path(@book.user),class:"btn btn-outline-secondary" do %>
+          <!--<a class="btn-outline-dark" href="edit_user_path(user)" role="button">Edit user</a>-->
+          <i class="fas fa-user-cog"></i>
+          <% end %>
+
+      </div>
+
+        <h2>New book</h2>
+      <%= form_with model: @book_new,local:true do |f| %>
+
+        <div class="field">
+          <%= f.label :title %><br>
+          <%= f.text_field :title %>
+        </div>
+
+        <div class="field">
+          <%= f.label :body %><br>
+          <%= f.text_area :body %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit 'Create Book', class: "btn btn-success" %>
+          <%# f.submit 'button', class: "btn" %>
+        </div>
+      <% end %>
+      </div>
+
+    <div class="col-md-8 offset-md-1">
+    <h2>Book detail</h2>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>
+              <%= link_to user_path(@book.user) do %>
+                  <%= image_tag @book.user.get_profile_image(100,100) %>
+              <% end %><br>
+              <%= link_to @book.user.name,user_path(@book.user) %>
+            </td>
+            <td><%= link_to @book.title,book_path(@book) %></td>
+            <td><%= @book.body %></td>
+
+          <% if @book.user == current_user %>
+            <%#= link_to 'Create book', new_book_path, class: "btn btn-success" %>
+            <td><%= link_to "Edit", edit_book_path(@book.id), class: "btn btn-success" %></td>
+            <td><%= link_to "Destroy",book_path(@book.id),method: :delete,"data-confirm" => "本当に削除しますか？",class: "btn btn-danger" %></td>
+          <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
